@@ -1,7 +1,20 @@
-export default function Home() {
+import Container from "@/components/Container";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import MainContent from "@/components/MainContent";
+
+import { ProductsWrapper } from "@/components/ProductsWrapper";
+
+export default async function Home() {
   return (
-    <div>
-      <h1>Hello home!</h1>
-    </div>
+    <>
+      <Header />
+      <MainContent>
+        <Container>
+          <ProductsWrapper />
+        </Container>
+      </MainContent>
+      <Footer />
+    </>
   );
 }
