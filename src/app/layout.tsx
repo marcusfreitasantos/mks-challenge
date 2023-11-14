@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeWrapper } from "@/styles/ThemeWrapper";
-import Providers from "./providers";
+import Providers from "@/services/providers";
+import { CartProvider } from "@/contexts/cartContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -23,7 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Providers>
-          <ThemeWrapper>{children}</ThemeWrapper>
+          <CartProvider>
+            <ThemeWrapper>{children}</ThemeWrapper>
+          </CartProvider>
         </Providers>
       </body>
     </html>

@@ -1,4 +1,6 @@
 "use client";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext } from "@/contexts/cartContext";
 import Image from "next/image";
 import * as S from "./styles";
 
@@ -12,10 +14,27 @@ type ProductProps = {
     photo: string;
     price: number;
     updatedAt: string;
+    amount: number;
   };
 };
 
 export default function ProductCard({ productData }: ProductProps) {
+  const { currentCartItems, setCurrentCartItems } = useContext(GlobalContext);
+
+  const addProductToCart = () => {
+    if (
+      currentCartItems.length &&
+      currentCartItems.find((item) => item.id === productData.id)
+    ) {
+      console.log("no");
+    } else {
+      setCurrentCartItems((currentCartItems) => [
+        ...currentCartItems,
+        { ...productData, amount: (productData.amount = 1) },
+      ]);
+    }
+  };
+
   return (
     <S.ProductCard>
       <S.ProductCard__info>
@@ -36,7 +55,7 @@ export default function ProductCard({ productData }: ProductProps) {
         </S.ProductCard__description>
       </S.ProductCard__info>
 
-      <S.ProductCard__purchaseBtn>
+      <S.ProductCard__purchaseBtn onClick={addProductToCart}>
         <Image
           src={"/images/purchase.svg"}
           width={14}
