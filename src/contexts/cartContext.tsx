@@ -7,7 +7,14 @@ type Props = {
   children: ReactNode;
 };
 
-export const GlobalContext = createContext({});
+type CartProps = {
+  currentCartItems?: string[];
+  cartTotal?: number;
+  setCurrentCartItems?: Function;
+  setCartTotal?: Function;
+};
+
+export const GlobalContext = createContext<CartProps>({});
 
 export function CartProvider({ children }: Props) {
   const [currentCartItems, setCurrentCartItems] = useState([]);
