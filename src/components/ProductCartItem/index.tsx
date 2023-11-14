@@ -20,19 +20,30 @@ type ProductProps = {
 };
 
 export default function ProductCartItem({ productData }: ProductProps) {
-  const { currentCartItems, setCurrentCartItems, cartTotal, setCartTotal } =
+  const { currentCartItems, setCurrentCartItems, setCartTotal } =
     useContext(GlobalContext);
   const [productQuantity, setProductQuantity] = useState(1);
   let total = 0;
 
-  const addProductToCart = () => {
+  const increaseProductAmountOnCart = () => {
     productData.amount += 1;
     setProductQuantity(productData.amount);
+
+    currentCartItems.map((item) => {
+      total += Number(item.price * item.amount);
+    });
+    setCartTotal(total);
   };
 
-  const removeProduct = () => {
+  const decreaseProductAmountOnCart = () => {
     productData.amount -= 1;
     setProductQuantity(productData.amount);
+
+    currentCartItems.map((item) => {
+      total += Number(item.price * item.amount);
+    });
+    setCartTotal(total);
+
     if (productData.amount === 0) {
       setCurrentCartItems(
         currentCartItems.filter((item) => item.id !== productData.id)
@@ -40,16 +51,22 @@ export default function ProductCartItem({ productData }: ProductProps) {
     }
   };
 
-  useEffect(() => {
+  const removeProductFromCart = () => {
     currentCartItems.map((item) => {
-      console.log(item.amount);
       total += Number(item.price * item.amount);
     });
     setCartTotal(total);
-  }, [productQuantity]);
+
+    setCurrentCartItems(
+      currentCartItems.filter((item) => item.id !== productData.id)
+    );
+  };
 
   return (
     <S.ProductCard>
+      <S.ProductCard__remove_item_btn onClick={removeProductFromCart}>
+        X
+      </S.ProductCard__remove_item_btn>
       <S.ProductCard__info>
         <Image
           src={productData.photo}
@@ -61,7 +78,7 @@ export default function ProductCartItem({ productData }: ProductProps) {
         <S.ProductCard__title_wrapper>
           <S.ProductCard__quant_wrapper>
             <S.ProductCart__quant_btn
-              onClick={removeProduct}
+              onClick={decreaseProductAmountOnCart}
               disabled={productQuantity > 0 ? false : true}
             >
               -
@@ -69,7 +86,7 @@ export default function ProductCartItem({ productData }: ProductProps) {
             <S.ProductCart__quant_value>
               {productQuantity}
             </S.ProductCart__quant_value>
-            <S.ProductCart__quant_btn onClick={addProductToCart}>
+            <S.ProductCart__quant_btn onClick={increaseProductAmountOnCart}>
               +
             </S.ProductCart__quant_btn>
           </S.ProductCard__quant_wrapper>

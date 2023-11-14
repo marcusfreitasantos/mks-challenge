@@ -19,7 +19,8 @@ type ProductProps = {
 };
 
 export default function ProductCard({ productData }: ProductProps) {
-  const { currentCartItems, setCurrentCartItems } = useContext(GlobalContext);
+  const { currentCartItems, setCurrentCartItems, setCartTotal, cartTotal } =
+    useContext(GlobalContext);
 
   const addProductToCart = () => {
     if (
@@ -34,6 +35,13 @@ export default function ProductCard({ productData }: ProductProps) {
       ]);
     }
   };
+  let total = 0;
+  useEffect(() => {
+    currentCartItems.map((item) => {
+      total += Number(item.price * 1);
+      setCartTotal(total);
+    });
+  }, [currentCartItems]);
 
   return (
     <S.ProductCard>

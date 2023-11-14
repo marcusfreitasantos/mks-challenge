@@ -6,6 +6,7 @@ export const ProductCard = styled.div`
   overflow: hidden;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 13%);
   background-color: #fff;
+  position: relative;
 
   @media (min-width: 768px) {
     width: 100%;
@@ -39,6 +40,7 @@ export const ProductCard__title = styled.h2`
   font-size: ${(props) => props.theme.font.default};
   font-weight: 400;
   color: #000;
+  flex: 1;
 `;
 
 export const ProductCard__price = styled.span`
@@ -81,4 +83,19 @@ export const ProductCart__quant_btn = styled.button`
   justify-content: center;
   align-items: center;
   padding: 5px;
+`;
+
+export const ProductCard__remove_item_btn = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  background-color: #000;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
 `;
